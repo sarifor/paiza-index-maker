@@ -1,0 +1,15 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "Original source code: https://blog.takuros.net/entry/2016/05/18/080317",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "sarifor",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio-httpcli": "^0.8.3"
+  }
+}
