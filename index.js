@@ -5,21 +5,16 @@ const parsing = async (url) => {
   const list = [];
   const html = await axios.get(url);
 	const $ = cheerio.load(html.data);
-	const $coursList = $('#courses_section > div > div > div > main > div.courses_container > div > div');
+	const $coursList = $('#courses_section > div > div > div > main > div.courses_container > div > div'); // # is element id
 
 	$coursList.each((idx, el) => {
-		const title = $(el).find('.course_title').eq(0).text();
+		const title = $(el).find('.course_title').eq(0).text(); // 동명의 클래스 엘러먼트
 		const instructor = $(el).find('.instructor').text();
-		const price_del = $(el).find('.price del').text().trim();
-		const price_pay = $(el).find('.price .pay_price').text().trim();
-		const rating = $(el).find('.star_solid').css('width');
 		const img = $(el).find('.card-image > figure > img').attr('src');
 
 		list.push({
 			title,
 			instructor,
-			price: [{del:price_del, pay:price_pay}],
-			rating,
  			img
 		});
     console.log(list);		
