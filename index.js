@@ -32,5 +32,9 @@ async function getWishList(url) {
   return result2;
 };
 
-const result2 = getWishList(url);
-console.log(result2);
+async function main() {
+  const result2 = await getWishList(url); // Needs to use 'await' or handle the Promise it returns.
+  console.log(result2);
+}
+
+main();
