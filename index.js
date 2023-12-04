@@ -1,43 +1,29 @@
-// 'use strict';
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-/**
- * Amazonのほしい物リスト（公開）からASINを取得
- *
- */
+const parsing = async (url) => {
+  const list = [];
+  const html = await axios.get(url);
+	const $ = cheerio.load(html.data);
+	const $coursList = $('#courses_section > div > div > div > main > div.courses_container > div > div');
 
+	$coursList.each((idx, el) => {
+		const title = $(el).find('.course_title').eq(0).text();
+		const instructor = $(el).find('.instructor').text();
+		const price_del = $(el).find('.price del').text().trim();
+		const price_pay = $(el).find('.price .pay_price').text().trim();
+		const rating = $(el).find('.star_solid').css('width');
+		const img = $(el).find('.card-image > figure > img').attr('src');
 
-const client = require('cheerio-httpcli');
-
-var url = 'https://paiza.jp/works/mondai';
-
-async function getData(url) {
-  const result2 = [];
-  const res = await client.fetch(url)
-  if (res.response.statusCode === 200) {
-    var $ = res.$; // function?
-    const re = $('.m-mondai-set');
-    console.log(re);
-    /* $('.m-mondai-set .m-mondai-set__inner').each(function () {
-      var element = $(this); // $ 자기 자신?
-      // var href = element.attr('href');
-      // var title = element.attr('title');
-      // var array = href.match(/(\/dp\/+)(.{10})/);
-      // var asin = array[2]; */
-      
-      // console.log(element)
-      // result2.push(element);
-    // })
-  } else {
-    console.log(res.response.statusCode);
-    console.log("Failed to read page");
-  }
-  // console.log(result2); // ok
-  return result2;
-};
-
-async function main() {
-  const result2 = await getData(url); // Needs to use 'await' or handle the Promise it returns.
-  console.log(result2);
+		list.push({
+			title,
+			instructor,
+			price: [{del:price_del, pay:price_pay}],
+			rating,
+ 			img
+		});
+    console.log(list);		
+	});
 }
 
-main();
+parsing('https://www.inflearn.com/courses?s=%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8');
