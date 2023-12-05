@@ -1,3 +1,7 @@
+/* 
+  Backup for getting h2, not ul and li, using cheerio.
+*/
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 
