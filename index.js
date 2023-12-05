@@ -4,18 +4,26 @@ const cheerio = require('cheerio');
 const parsing = async (url) => {
   const list = [];
   const html = await axios.get(url);
-	const $ = cheerio.load(html.data);
-  const $coursList = $('#main > div.p-works-mondai > section > div.m-mondai-sets');
-	// const $coursList = $('#courses_section > div > div > div > main > div.courses_container > div > div'); // # is element id
+	const $ = cheerio.load(html.data); // "cheerio에는 html 태그 데이터만 넣어야 함"
+  
+  // Mondai sets
+  const $mondaiSets = $('#main > div.p-works-mondai > section > div.m-mondai-sets.js-learning_problem_category'); // 여러 개의 클래스
 
-	$coursList.each((idx, el) => {
-		const chapter = $(el).find('h2').text();
-    // const mondai = $(el).find('.m-mondai-sets__inner > li > div.m-mondai-set__inner').text(); // not work
-		list.push({
-			chapter,
-      mondai,
- 		});
-	});
+  // ul
+  const $ul = $('#main > div.p-works-mondai > section > div.m-mondai-sets.js-learning_problem_category > ul');
+  // console.log($ul); // Not working
+
+  // li
+  const $li = $ul.find('li');
+  // console.log($li); // Not working
+
+  // Chapter
+  $mondaiSets.each(function() {
+    const chapter = $(this).find('h2').text()
+    list.push({
+      chapter,
+    })
+  })
 
   return list;
 };
