@@ -13,9 +13,9 @@ async function main () {
 
   await browser.close(); // 브라우저 닫기
 
-  featureArticle = await page.$x('.//div[@class="main-top-major"]//ul//li');
+  featureArticle = await page.$x('.//div[@class="main-top-major"]//ul//li'); // Error: Requesting main frame too early!
 
-  // featureArticle 는 li 5개를 포함하고 있습니다
+  // featureArticle 는 li 5개를 포함하고 있습니다.
 
   for (let i = 0; i < featureArticle.length; i++) {
     const data = {};
